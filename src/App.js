@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import TodoList from './components/TodoList'
 
-
 function App() {
   const [yesterdayTodos, setYesterdayTodos] = useState([])
   const [todayTodos, setTodayTodos] = useState([])
