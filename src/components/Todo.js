@@ -1,7 +1,19 @@
-function Todo({ todo }) {
-	return (
+function Todo({ todo, toggleTodo }) {
+	function handleTodoClick() {
+		toggleTodo(todo.id)
+	}
+  
+  const crossedStyle = {
+    color: 'gray',
+    textDecoration: 'line-through',
+  }
+  
+  return (
 		<>
-      <p>{todo.name}</p>
+      <p style={todo.complete ? crossedStyle : {}}>
+        <input type='checkbox' checked={todo.complete} onChange={handleTodoClick} />
+        {todo.name}
+      </p>
 		</>
 	)
 }

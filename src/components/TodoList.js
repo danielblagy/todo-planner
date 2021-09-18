@@ -19,16 +19,23 @@ function TodoList({ title, todos, setTodos }) {
     todoNameRef.current.value = null
   }
   
+  function toggleTodo(id) {
+    const newTodos = [...todos]
+    const todo = newTodos.find(todo => todo.id === id)
+    todo.complete = !todo.complete
+    setTodos(newTodos)
+  }
+  
   return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
       
       {todos.map(todo => {
-        return <Todo key={todo.id} todo={todo} />
+        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} />
       })}
       
       <input ref={todoNameRef} type='text' />
-      <BiPlus onClick={handleAddTodo} />
+      <BiPlus onClick={handleAddTodo} style={{cursor: 'pointer'}} />
 		</div>
 	)
 }
