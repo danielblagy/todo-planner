@@ -1,4 +1,4 @@
-function TodoList({ title }) {
+function TodoList({ title, todos, setTodos }) {
 	return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
