@@ -43,12 +43,22 @@ function TodoList({ title, todos, setTodos, storageKey }) {
     setTodos(newTodos)
   }
   
+  function editTodo(id, newName) {
+    if (newName === '')
+      return
+    
+    const newTodos = [...todos]
+    const todo = newTodos.find(todo => todo.id === id)
+    todo.name = newName
+    setTodos(newTodos)
+  }
+  
   return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
       
       {todos.map(todo => {
-        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
+        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} editTodo={editTodo} />
       })}
       
       <input ref={todoNameRef} type='text' />

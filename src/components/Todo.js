@@ -1,7 +1,10 @@
+import { useRef } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-function Todo({ todo, toggleTodo, deleteTodo }) {
-	function handleTodoClick() {
+function Todo({ todo, toggleTodo, deleteTodo, editTodo }) {
+	const todoNameRef = useRef()
+  
+  function handleTodoClick() {
 		toggleTodo(todo.id)
 	}
   
@@ -9,16 +12,28 @@ function Todo({ todo, toggleTodo, deleteTodo }) {
 		deleteTodo(todo.id)
 	}
   
+  function handleTodoEdit() {
+		editTodo(todo.id, todoNameRef.current.value)
+	}
+  
   const crossedStyle = {
     color: 'gray',
     textDecoration: 'line-through',
+    border: 'none',
+    borderColor: 'transparent'
   }
   
   return (
 		<>
-      <p style={todo.complete ? crossedStyle : {}}>
+      <p>
         <input type='checkbox' checked={todo.complete ? true : false} onChange={handleTodoClick} />
-        {todo.name}
+        <input
+          ref={todoNameRef}
+          type='text'
+          style={todo.complete ? crossedStyle : {border: 'none', borderColor: 'transparent'}}
+          defaultValue={todo.name}
+          onChange={handleTodoEdit}
+        />
         <FaTimes onClick={handleTodoDelete} style={{cursor: 'pointer'}} />
       </p>
 		</>
