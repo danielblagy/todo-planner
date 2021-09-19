@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { v4 } from 'uuid'
-import { BiPlus } from 'react-icons/bi'
+import { FaPlus } from 'react-icons/fa'
 
 import Todo from './Todo'
 
@@ -26,16 +26,23 @@ function TodoList({ title, todos, setTodos }) {
     setTodos(newTodos)
   }
   
+  function deleteTodo(id) {
+    const newTodos = [...todos]
+    const todoIndex = newTodos.findIndex(todo => todo.id === id)
+    newTodos.splice(todoIndex, 1)
+    setTodos(newTodos)
+  }
+  
   return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
       
       {todos.map(todo => {
-        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} />
+        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
       })}
       
       <input ref={todoNameRef} type='text' />
-      <BiPlus onClick={handleAddTodo} style={{cursor: 'pointer'}} />
+      <FaPlus onClick={handleAddTodo} style={{cursor: 'pointer'}} />
 		</div>
 	)
 }
