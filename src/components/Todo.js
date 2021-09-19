@@ -11,7 +11,7 @@ function Todo({ todo, toggleTodo }) {
   return (
 		<>
       <p style={todo.complete ? crossedStyle : {}}>
-        <input type='checkbox' checked={todo.complete} onChange={handleTodoClick} />
+        <input type='checkbox' checked={todo.complete ? true : false} onChange={handleTodoClick} />
         {todo.name}
       </p>
 		</>
