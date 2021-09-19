@@ -1,11 +1,21 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { v4 } from 'uuid'
 import { FaPlus } from 'react-icons/fa'
 
 import Todo from './Todo'
 
-function TodoList({ title, todos, setTodos }) {
-	const todoNameRef = useRef()
+function TodoList({ title, todos, setTodos, storageKey }) {
+	useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(storageKey))
+    
+    if (storedTodos) setTodos(storedTodos)
+  }, [setTodos, storageKey])  // called only once, on init
+  
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(todos))
+  }, [storageKey, todos])
+  
+  const todoNameRef = useRef()
   
   function handleAddTodo(e) {
     const name = todoNameRef.current.value
