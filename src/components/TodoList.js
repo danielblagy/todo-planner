@@ -58,6 +58,9 @@ function TodoList({ title, todos, setTodos, storageKey }) {
   
   // update the order of the todos array
   function handleOnDragEnd(e) {
+    // Preventing errors from dragging out of bounds
+    if (!e.destination) return
+    
     const newTodos = [...todos]
     const [reorderedTodo] = newTodos.splice(e.source.index, 1)
     newTodos.splice(e.destination.index, 0, reorderedTodo)
