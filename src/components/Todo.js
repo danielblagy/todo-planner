@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { Draggable } from 'react-beautiful-dnd'
+import { GrDrag } from 'react-icons/gr'
 
 function Todo({ todo, toggleTodo, deleteTodo, editTodo, index }) {
 	const todoNameRef = useRef()
@@ -29,6 +30,7 @@ function Todo({ todo, toggleTodo, deleteTodo, editTodo, index }) {
       <Draggable key={todo.id} draggableId={todo.id} index={index}>
         {(provided) => (
           <p ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <GrDrag />
             <input type='checkbox' checked={todo.complete ? true : false} onChange={handleTodoClick} />
             <input
               ref={todoNameRef}
