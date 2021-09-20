@@ -56,11 +56,20 @@ function TodoList({ title, todos, setTodos, storageKey }) {
     setTodos(newTodos)
   }
   
+  // update the order of the todos array
+  function handleOnDragEnd(e) {
+    const newTodos = [...todos]
+    const [reorderedTodo] = newTodos.splice(e.source.index, 1)
+    newTodos.splice(e.destination.index, 0, reorderedTodo)
+    
+    setTodos(newTodos)
+  }
+  
   return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
       
-      <DragDropContext>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId='todos'>
           {(provided) => (
             <div className='todos' {...provided.droppableProps} ref={provided.innerRef}>
