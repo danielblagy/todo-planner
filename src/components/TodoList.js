@@ -26,7 +26,7 @@ function TodoList({ title, todos, setTodos, storageKey }) {
       return
     
     setTodos(prevTodos => {
-      return [...prevTodos, {id: v4(), name: name, completed: false}]
+      return [...prevTodos, {id: v4(), name: name, complete: false}]
     })
       
     todoNameRef.current.value = null
