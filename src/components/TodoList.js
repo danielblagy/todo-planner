@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { v4 } from 'uuid'
 import { FaPlus } from 'react-icons/fa'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import Todo from './Todo'
 
@@ -59,9 +60,19 @@ function TodoList({ title, todos, setTodos, storageKey }) {
 		<div className='TodoList'>
 			<h2>{title}</h2>
       
-      {todos.map(todo => {
-        return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} editTodo={editTodo} />
-      })}
+      <DragDropContext>
+        <Droppable droppableId='todos'>
+          {(provided) => (
+            <div className='todos' {...provided.droppableProps} ref={provided.innerRef}>
+              {todos.map((todo, index) => {
+                return <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} editTodo={editTodo} index={index} />
+              })}
+              
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       
       <input ref={todoNameRef} type='text' />
       <FaPlus onClick={handleAddTodo} style={{cursor: 'pointer'}} />
