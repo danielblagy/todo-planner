@@ -6,6 +6,8 @@ import Todo from './Todo'
 
 function TodoList({ title, todos, setTodos, storageKey }) {
 	useEffect(() => {
+    console.log('todolist init')
+    
     const storedTodos = JSON.parse(localStorage.getItem(storageKey))
     
     if (storedTodos) setTodos(storedTodos)

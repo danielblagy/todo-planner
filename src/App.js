@@ -8,9 +8,24 @@ const LOCAL_STORAGE_TOMORROW = 'todo_planner.tomorrow_todos'
 const LOCAL_STORAGE_LAST_DAY = 'todo_planner.last_day'
 
 function App() {
-  const [yesterdayTodos, setYesterdayTodos] = useState([])
-  const [todayTodos, setTodayTodos] = useState([])
-  const [tomorrowTodos, setTomorrowTodos] = useState([])
+  const [yesterdayTodos, setYesterdayTodos] = useState([{id: "64eaca0b-a400-437b-b15d-e45cef4b5812", name: "to be deleted", completed: false, complete: true}])
+  const [todayTodos, setTodayTodos] = useState([{
+    "id": "ec890db9-1c07-4421-b871-852678d0b1fe",
+    "name": "it used to be today",
+    "completed": false,
+    "complete": true
+  }, {
+    "id": "c2d68c21-6c15-47d5-9f89-48162bdfe776",
+    "name": "haha, hasn't been done",
+    "completed": false
+  }])
+  const [tomorrowTodos, setTomorrowTodos] = useState([
+    {
+      "id": "fb4a869d-7f96-45ef-9a64-27c76b4574ec",
+      "name": "now it's today",
+      "completed": false
+    }
+  ])
   const [lastDay, setLastDay] = useState(new Date())
   
   const dateFormat = { year: '2-digit', month: 'numeric', day: 'numeric' }
@@ -33,36 +48,43 @@ function App() {
       return isSameDay(d1, d2)
     }
     
+    console.log('lastDay init')
+    
     const storedlastDay = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LAST_DAY))
     
     if (storedlastDay) setLastDay(storedlastDay)
     
     const today = new Date()
     
-    if (isSameDay(today, lastDay)) {}
+    if (isSameDay(today, lastDay)) {console.log('same day')}
     
-    else if (isNextDay(lastDay, today)) {
+    else if (isNextDay(new Date(lastDay), today)) {
       setYesterdayTodos(todayTodos)
       setTodayTodos(tomorrowTodos)
       setTomorrowTodos([])
+      console.log('next day')
     }
     
-    else if (isDayAfterNext(lastDay, today)) {
+    else if (isDayAfterNext(new Date(lastDay), today)) {
       setYesterdayTodos(tomorrowTodos)
       setTodayTodos([])
       setTomorrowTodos([])
+      console.log('day after next')
     }
     
     else {
       setYesterdayTodos([])
       setTodayTodos([])
       setTomorrowTodos([])
+      console.log('long time ago')
     }
     
     setLastDay(today)
   }, [])  // called only once, on init
   
   useEffect(() => {
+    console.log('lastDay change')
+    
     localStorage.setItem(LOCAL_STORAGE_LAST_DAY, JSON.stringify(lastDay))
     
     const yesterday = new Date(lastDay)
