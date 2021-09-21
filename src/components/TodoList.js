@@ -6,16 +6,17 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Todo from './Todo'
 
 function TodoList({ title, todos, setTodos, storageKey }) {
-	useEffect(() => {
+  /*useEffect(() => {
     console.log('todolist init')
-    
+
     const storedTodos = JSON.parse(localStorage.getItem(storageKey))
-    
+
     if (storedTodos) setTodos(storedTodos)
   }, [setTodos, storageKey])  // called only once, on init
-  
+  */
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(todos))
+    console.log('todolist update')
   }, [storageKey, todos])
   
   const todoNameRef = useRef()

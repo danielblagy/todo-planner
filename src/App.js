@@ -8,9 +8,21 @@ const LOCAL_STORAGE_TOMORROW = 'todo_planner.tomorrow_todos'
 const LOCAL_STORAGE_LAST_DAY = 'todo_planner.last_day'
 
 function App() {
-  const [yesterdayTodos, setYesterdayTodos] = useState([])
-  const [todayTodos, setTodayTodos] = useState([])
-  const [tomorrowTodos, setTomorrowTodos] = useState([])
+  const [yesterdayTodos, setYesterdayTodos] = useState(() => {
+    const todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_YESTERDAY))
+    if (todos) return todos
+    return []
+  })
+  const [todayTodos, setTodayTodos] = useState(() => {
+    const todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TODAY))
+    if (todos) return todos
+    return []
+  })
+  const [tomorrowTodos, setTomorrowTodos] = useState(() => {
+    const todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TOMORROW))
+    if (todos) return todos
+    return []
+  })
   const [lastDay, setLastDay] = useState(new Date())
   
   const dateFormat = { year: '2-digit', month: 'numeric', day: 'numeric' }
@@ -35,52 +47,58 @@ function App() {
     
     console.log('lastDay init')
     
-    const storedlastDay = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LAST_DAY))
+    console.log(yesterdayTodos)
+    console.log(todayTodos)
+    console.log(tomorrowTodos)
     
-    if (storedlastDay) setLastDay(storedlastDay)
+    const storedlastDay = new Date(JSON.parse(localStorage.getItem(LOCAL_STORAGE_LAST_DAY)))
     
     const today = new Date()
     
-    if (isSameDay(today, lastDay)) {console.log('same day')}
-    
-    else if (isNextDay(new Date(lastDay), today)) {
-      setYesterdayTodos(todayTodos)
-      setTodayTodos(tomorrowTodos)
-      setTomorrowTodos([])
-      console.log('next day')
-    }
-    
-    else if (isDayAfterNext(new Date(lastDay), today)) {
-      setYesterdayTodos(tomorrowTodos)
-      setTodayTodos([])
-      setTomorrowTodos([])
-      console.log('day after next')
-    }
-    
-    else {
-      setYesterdayTodos([])
-      setTodayTodos([])
-      setTomorrowTodos([])
-      console.log('long time ago')
+    if (storedlastDay) {
+      console.log(storedlastDay)
+      console.log(lastDay)
+      
+      if (isSameDay(today, storedlastDay)) {console.log('same day')}
+      
+      else if (isNextDay(new Date(storedlastDay), today)) {
+        setYesterdayTodos(todayTodos)
+        setTodayTodos(tomorrowTodos)
+        setTomorrowTodos([])
+        console.log('next day')
+      }
+      
+      else if (isDayAfterNext(new Date(storedlastDay), today)) {
+        setYesterdayTodos(tomorrowTodos)
+        setTodayTodos([])
+        setTomorrowTodos([])
+        console.log('day after next')
+      }
+      
+      else {
+        setYesterdayTodos([])
+        setTodayTodos([])
+        setTomorrowTodos([])
+        console.log('long time ago')
+      }
     }
     
     setLastDay(today)
+    
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+    
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    setYesterdayDate('Yesterday ' + yesterday.toLocaleDateString('en-US', dateFormat))
+    setTodayDate('Today ' + today.toLocaleDateString('en-US', dateFormat))
+    setTomorrowDate('Tomorrow ' + tomorrow.toLocaleDateString('en-US', dateFormat))
   }, [])  // called only once, on init
   
   useEffect(() => {
     console.log('lastDay change')
-    
     localStorage.setItem(LOCAL_STORAGE_LAST_DAY, JSON.stringify(lastDay))
-    
-    const yesterday = new Date(lastDay)
-    yesterday.setDate(yesterday.getDate() - 1)
-    
-    const tomorrow = new Date(lastDay)
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    
-    setYesterdayDate('Yesterday ' + yesterday.toLocaleDateString('en-US', dateFormat))
-    setTodayDate('Today ' + lastDay.toLocaleDateString('en-US', dateFormat))
-    setTomorrowDate('Tomorrow ' + tomorrow.toLocaleDateString('en-US', dateFormat))
   }, [lastDay])
   
   return (
