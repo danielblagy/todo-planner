@@ -60,6 +60,10 @@ function TodoList({ title, todos, setTodos, storageKey }) {
     setTodos(newTodos)
   }
   
+  function handleInputKeyDown(e) {
+    if (e.code === 'Enter') handleAddTodo(e)
+  }
+  
   return (
 		<div className='TodoList'>
 			<h2>{title}</h2>
@@ -78,7 +82,7 @@ function TodoList({ title, todos, setTodos, storageKey }) {
         </Droppable>
       </DragDropContext>
       
-      <input ref={todoNameRef} type='text' />
+      <input ref={todoNameRef} type='text' onKeyDown={handleInputKeyDown} />
       <FaPlus onClick={handleAddTodo} style={{cursor: 'pointer'}} />
 		</div>
 	)
