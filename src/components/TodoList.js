@@ -8,7 +8,6 @@ import Todo from './Todo'
 function TodoList({ title, todos, setTodos, storageKey }) {
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(todos))
-    console.log('todolist update')
   }, [storageKey, todos])
   
   const todoNameRef = useRef()

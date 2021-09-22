@@ -45,41 +45,29 @@ function App() {
       return isSameDay(d1, d2)
     }
     
-    console.log('lastDay init')
-    
-    console.log(yesterdayTodos)
-    console.log(todayTodos)
-    console.log(tomorrowTodos)
-    
     const storedlastDay = new Date(JSON.parse(localStorage.getItem(LOCAL_STORAGE_LAST_DAY)))
     
     const today = new Date()
     
     if (storedlastDay) {
-      console.log(storedlastDay)
-      console.log(lastDay)
-      
-      if (isSameDay(today, storedlastDay)) {console.log('same day')}
+      if (isSameDay(today, storedlastDay)) {}
       
       else if (isNextDay(new Date(storedlastDay), today)) {
         setYesterdayTodos(todayTodos)
         setTodayTodos(tomorrowTodos)
         setTomorrowTodos([])
-        console.log('next day')
       }
       
       else if (isDayAfterNext(new Date(storedlastDay), today)) {
         setYesterdayTodos(tomorrowTodos)
         setTodayTodos([])
         setTomorrowTodos([])
-        console.log('day after next')
       }
       
       else {
         setYesterdayTodos([])
         setTodayTodos([])
         setTomorrowTodos([])
-        console.log('long time ago')
       }
     }
     
@@ -97,7 +85,6 @@ function App() {
   }, [])  // called only once, on init
   
   useEffect(() => {
-    console.log('lastDay change')
     localStorage.setItem(LOCAL_STORAGE_LAST_DAY, JSON.stringify(lastDay))
   }, [lastDay])
   
